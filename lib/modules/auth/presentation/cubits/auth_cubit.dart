@@ -53,6 +53,52 @@ class AuthCubit extends Cubit<AuthState> {
        _logoutUsecase = logoutUsecase,
        super(AuthInitial());
   
+  /// Traduz erros do Firebase em mensagens amigáveis
+  String _getUserFriendlyMessage(String error) {
+    // Erros de login
+    if (error.contains('invalid-credential') || 
+        error.contains('wrong-password') ||
+        error.contains('user-not-found')) {
+      return 'Email ou senha incorretos. Verifique suas credenciais e tente novamente.';
+    }
+    
+    // Erros de email
+    if (error.contains('invalid-email')) {
+      return 'Formato de email inválido. Verifique se o email está correto.';
+    }
+    
+    if (error.contains('email-already-in-use')) {
+      return 'Este email já está sendo usado por outra conta.';
+    }
+    
+    if (error.contains('user-disabled')) {
+      return 'Esta conta foi desabilitada. Entre em contato com o suporte.';
+    }
+    
+    // Erros de senha
+    if (error.contains('weak-password')) {
+      return 'A senha é muito fraca. Use uma senha com pelo menos 6 caracteres.';
+    }
+    
+    // Erros de rede
+    if (error.contains('network-request-failed') ||
+        error.contains('network-error')) {
+      return 'Erro de conexão. Verifique sua internet e tente novamente.';
+    }
+    
+    if (error.contains('too-many-requests')) {
+      return 'Muitas tentativas de login. Aguarde alguns minutos e tente novamente.';
+    }
+    
+    // Erros de timeout
+    if (error.contains('timeout') || error.contains('deadline-exceeded')) {
+      return 'Tempo limite excedido. Verifique sua conexão e tente novamente.';
+    }
+    
+    // Erro genérico para casos não mapeados
+    return 'Ocorreu um erro inesperado. Tente novamente mais tarde.';
+  }
+  
   /// Login do usuário
   Future<void> login({
     required String email,
@@ -68,7 +114,8 @@ class AuthCubit extends Cubit<AuthState> {
       emit(AuthAuthenticated(user));
     } catch (e) {
       AppLogger.error('Login error: $e');
-      emit(AuthError(e.toString()));
+      final userFriendlyMessage = _getUserFriendlyMessage(e.toString());
+      emit(AuthError(userFriendlyMessage));
     }
   }
   
@@ -92,7 +139,8 @@ class AuthCubit extends Cubit<AuthState> {
       emit(AuthAuthenticated(user));
     } catch (e) {
       AppLogger.error('Registration error: $e');
-      emit(AuthError(e.toString()));
+      final userFriendlyMessage = _getUserFriendlyMessage(e.toString());
+      emit(AuthError(userFriendlyMessage));
     }
   }
   
@@ -108,7 +156,8 @@ class AuthCubit extends Cubit<AuthState> {
       emit(AuthUnauthenticated());
     } catch (e) {
       AppLogger.error('Logout error: $e');
-      emit(AuthError(e.toString()));
+      final userFriendlyMessage = _getUserFriendlyMessage(e.toString());
+      emit(AuthError(userFriendlyMessage));
     }
   }
   
