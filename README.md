@@ -137,25 +137,7 @@ flutter test --coverage
 - Flutter SDK 3.32.8 ou superior
 - Dart 3.8.1 ou superior
 - iOS Simulator ou Android Emulator
-- Firebase configurado
 
-### Configuração
-
-1. **Clone o repositório**
-   ```bash
-   git clone <repository-url>
-   cd magnum_bank_test
-   ```
-
-2. **Instale as dependências**
-   ```bash
-   flutter pub get
-   ```
-
-3. **Execute o app**
-   ```bash
-   flutter run
-   ```
 
 ## 📱 Funcionalidades
 
@@ -220,13 +202,6 @@ flutter test --coverage
 - **Um arquivo por classe** (exceto para estados simples)
 - **Organização por módulo** e camada
 - **Separação clara** entre lógica de negócio e apresentação
-
-
-## 📞 Contato
-
-- **Desenvolvedor**: [Seu Nome]
-- **Email**: [seu-email@exemplo.com]
-- **LinkedIn**: [seu-linkedin]
 
 ---
 
