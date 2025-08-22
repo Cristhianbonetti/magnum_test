@@ -41,7 +41,7 @@ class PostsRemoteDataSourceImpl implements PostsRemoteDataSource {
         final List<dynamic> postsJson = json.decode(response.body);
         final posts = postsJson.map((json) => PostModel.fromJson(json)).toList();
         
-        // Aplicar paginação se especificado
+        
         if (page != null && limit != null) {
           final startIndex = (page - 1) * limit;
           final endIndex = startIndex + limit;

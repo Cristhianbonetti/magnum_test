@@ -4,7 +4,6 @@ import '../../../shared/core/utils/logger.dart';
 import '../../domain/entities/post_entity.dart';
 import '../../domain/usecases/get_posts_usecase.dart';
 
-// Estados
 abstract class PostsState extends Equatable {
   const PostsState();
   
@@ -52,7 +51,6 @@ class PostsError extends PostsState {
   List<Object?> get props => [message];
 }
 
-// Cubit
 class PostsCubit extends Cubit<PostsState> {
   final GetPostsUsecase _getPostsUsecase;
   
@@ -61,7 +59,6 @@ class PostsCubit extends Cubit<PostsState> {
   }) : _getPostsUsecase = getPostsUsecase,
        super(PostsInitial());
   
-  /// Carregar posts com paginação
   Future<void> loadPosts({bool refresh = false}) async {
     try {
       if (refresh) {
@@ -126,7 +123,6 @@ class PostsCubit extends Cubit<PostsState> {
             },
           );
         } else {
-          // Primeira carga
           AppLogger.info('Loading posts for the first time');
           emit(PostsLoading());
           
@@ -158,7 +154,6 @@ class PostsCubit extends Cubit<PostsState> {
     }
   }
   
-  /// Limpar estado
   void clearPosts() {
     AppLogger.info('Clearing posts state');
     emit(PostsInitial());

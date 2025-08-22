@@ -6,7 +6,6 @@ import '../../domain/usecases/get_profile_usecase.dart';
 import '../../domain/usecases/save_profile_usecase.dart';
 import '../../domain/usecases/update_profile_usecase.dart';
 
-// Estados
 abstract class ProfileState extends Equatable {
   const ProfileState();
   
@@ -54,7 +53,6 @@ class ProfileUpdated extends ProfileState {
   List<Object?> get props => [profile];
 }
 
-// Cubit
 class ProfileCubit extends Cubit<ProfileState> {
   final GetProfileUsecase _getProfileUsecase;
   final SaveProfileUsecase _saveProfileUsecase;
@@ -69,7 +67,6 @@ class ProfileCubit extends Cubit<ProfileState> {
        _updateProfileUsecase = updateProfileUsecase,
        super(ProfileInitial());
   
-  /// Carregar perfil do usuário
   Future<void> loadProfile(String uid) async {
     try {
       AppLogger.info('Loading profile for user: $uid');
@@ -98,7 +95,6 @@ class ProfileCubit extends Cubit<ProfileState> {
       }
   }
   
-  /// Salvar perfil
   Future<void> saveProfile(ProfileEntity profile) async {
     try {
       AppLogger.info('Saving profile for user: ${profile.uid}');
@@ -127,7 +123,6 @@ class ProfileCubit extends Cubit<ProfileState> {
     }
   }
   
-  /// Atualizar perfil
   Future<void> updateProfile(String uid, Map<String, dynamic> updates) async {
     try {
       AppLogger.info('Updating profile for user: $uid');
@@ -146,7 +141,6 @@ class ProfileCubit extends Cubit<ProfileState> {
         (success) {
           if (success) {
             AppLogger.info('Profile updated successfully for user: $uid');
-            // Recarregar o perfil para refletir as mudanças
             loadProfile(uid);
           } else {
             AppLogger.error('Failed to update profile');
@@ -160,22 +154,20 @@ class ProfileCubit extends Cubit<ProfileState> {
     }
   }
   
-  /// Atualizar idade
   Future<void> updateAge(String uid, int age) async {
     await updateProfile(uid, {'age': age});
   }
   
-  /// Atualizar interesses
   Future<void> updateInterests(String uid, List<String> interests) async {
     await updateProfile(uid, {'interests': interests});
   }
   
-  /// Atualizar bio
+
   Future<void> updateBio(String uid, String bio) async {
     await updateProfile(uid, {'bio': bio});
   }
   
-  /// Limpar estado
+
   void clearProfile() {
     AppLogger.info('Clearing profile state');
     emit(ProfileInitial());

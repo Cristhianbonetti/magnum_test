@@ -20,11 +20,11 @@ class AuthCheckPage extends StatelessWidget {
         }
 
         if (state is AuthAuthenticated) {
-          // Usuário está logado, mostrar posts
+         
           return const PostsPage();
         }
 
-        // Usuário não está logado, mostrar login
+        
         return const AuthPage();
       },
     );

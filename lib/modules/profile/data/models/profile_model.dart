@@ -81,7 +81,6 @@ class ProfileModel extends ProfileEntity {
     );
   }
 
-  // Factory para criar perfil inicial
   factory ProfileModel.initial({
     required String uid,
     required String email,

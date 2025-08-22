@@ -6,7 +6,7 @@ import '../../domain/usecases/login_usecase.dart';
 import '../../domain/usecases/register_usecase.dart';
 import '../../domain/usecases/logout_usecase.dart';
 
-// Estados
+
 abstract class AuthState extends Equatable {
   const AuthState();
   
@@ -38,7 +38,7 @@ class AuthError extends AuthState {
   List<Object?> get props => [message];
 }
 
-// Cubit
+
 class AuthCubit extends Cubit<AuthState> {
   final LoginUsecase _loginUsecase;
   final RegisterUsecase _registerUsecase;
@@ -53,7 +53,7 @@ class AuthCubit extends Cubit<AuthState> {
        _logoutUsecase = logoutUsecase,
        super(AuthInitial());
   
-  /// Traduz erros do Firebase em mensagens amigáveis
+  
   String _getUserFriendlyMessage(String error) {
     // Erros de login
     if (error.contains('invalid-credential') || 
@@ -99,7 +99,7 @@ class AuthCubit extends Cubit<AuthState> {
     return 'Ocorreu um erro inesperado. Tente novamente mais tarde.';
   }
   
-  /// Login do usuário
+  
   Future<void> login({
     required String email,
     required String password,
@@ -119,7 +119,7 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
   
-  /// Registro do usuário
+  
   Future<void> register({
     required String email,
     required String password,
@@ -144,7 +144,7 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
   
-  /// Logout do usuário
+  
   Future<void> logout() async {
     try {
       AppLogger.info('Logout attempt');
@@ -161,17 +161,17 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
   
-  /// Definir usuário autenticado (para stream de auth state)
+  
   void setAuthenticatedUser(UserEntity user) {
     emit(AuthAuthenticated(user));
   }
   
-  /// Definir usuário não autenticado
+  
   void setUnauthenticated() {
     emit(AuthUnauthenticated());
   }
   
-  /// Limpar estado de erro
+  
   void clearError() {
     if (state is AuthError) {
       emit(AuthUnauthenticated());

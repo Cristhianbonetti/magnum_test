@@ -18,7 +18,6 @@ class _PostsPageState extends State<PostsPage> {
   void initState() {
     super.initState();
     _scrollController.addListener(_onScroll);
-    // Carregar posts quando a página inicializar
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<PostsCubit>().loadPosts(refresh: true);
     });
@@ -76,7 +75,6 @@ class _PostsPageState extends State<PostsPage> {
             foregroundColor: Colors.white,
             title: state is AuthAuthenticated ? LayoutBuilder(
               builder: (context, constraints) {
-                // Para telas pequenas, ajusta o tamanho do avatar e espaçamento
                 final avatarRadius = constraints.maxWidth < 300 ? 16.0 : 18.0;
                 final spacing = constraints.maxWidth < 300 ? 8.0 : 12.0;
                 
@@ -237,7 +235,6 @@ class _PostsPageState extends State<PostsPage> {
       child: ListTile(
         leading: GestureDetector(
           onTap: () {
-            // Navegar para o perfil do usuário
             Navigator.of(context).pushNamed('/profile', arguments: post.userId.toString());
           },
           child: CircleAvatar(
@@ -276,7 +273,6 @@ class _PostsPageState extends State<PostsPage> {
         ),
         isThreeLine: true,
         onTap: () {
-          // Navegar para detalhes do post
           Navigator.of(context).pushNamed('/post-detail', arguments: post);
         },
       ),
@@ -303,7 +299,6 @@ class _PostsPageState extends State<PostsPage> {
             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
           ),
           onPressed: () {
-            // Navegar para detalhes do post
             Navigator.of(context).pushNamed('/post-detail', arguments: post);
           },
           child: const Text('Ver mais'),

@@ -195,11 +195,10 @@ class _AuthStateListenerState extends State<AuthStateListener> {
              email: user.email ?? '',
              displayName: user.displayName,
              photoURL: user.photoURL,
-             createdAt: DateTime.now(), // Campo obrigatório
-             lastLoginAt: DateTime.now(), // Campo obrigatório
+             createdAt: DateTime.now(),
+             lastLoginAt: DateTime.now(), 
            ));
          } else {
-          // Usuário não está logado
           authCubit.setUnauthenticated();
         }
       });

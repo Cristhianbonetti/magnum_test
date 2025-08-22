@@ -95,7 +95,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         );
       }
       
-      // Update display name if provided
+      
       if (displayName != null) {
         await userCredential.user!.updateDisplayName(displayName);
       }
