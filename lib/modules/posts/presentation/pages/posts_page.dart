@@ -74,54 +74,64 @@ class _PostsPageState extends State<PostsPage> {
           appBar: AppBar(
             backgroundColor: Colors.blue[800],
             foregroundColor: Colors.white,
-            leading: state is AuthAuthenticated ? Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                CircleAvatar(
-                  radius: 16,
-                  backgroundImage: state.user.photoURL != null
-                      ? NetworkImage(state.user.photoURL!)
-                      : null,
-                  backgroundColor: Colors.white,
-                  child: state.user.photoURL == null
-                      ? Text(
-                          state.user.displayName?.substring(0, 1).toUpperCase() ??
-                              state.user.email.substring(0, 1).toUpperCase(),
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.blue,
+            title: state is AuthAuthenticated ? LayoutBuilder(
+              builder: (context, constraints) {
+                // Para telas pequenas, ajusta o tamanho do avatar e espaçamento
+                final avatarRadius = constraints.maxWidth < 300 ? 16.0 : 18.0;
+                final spacing = constraints.maxWidth < 300 ? 8.0 : 12.0;
+                
+                return Row(
+                  children: [
+                    CircleAvatar(
+                      radius: avatarRadius,
+                      backgroundImage: state.user.photoURL != null
+                          ? NetworkImage(state.user.photoURL!)
+                          : null,
+                      backgroundColor: Colors.white,
+                      child: state.user.photoURL == null
+                          ? Text(
+                              state.user.displayName?.substring(0, 1).toUpperCase() ??
+                                  state.user.email.substring(0, 1).toUpperCase(),
+                              style: TextStyle(
+                                fontSize: avatarRadius - 2,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.blue,
+                              ),
+                            )
+                          : null,
+                    ),
+                    SizedBox(width: spacing),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            state.user.displayName ?? 'Usuário',
+                            style: TextStyle(
+                              fontSize: constraints.maxWidth < 300 ? 14 : 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
                           ),
-                        )
-                      : null,
-                ),
-                const SizedBox(width: 8),
-                Flexible(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        state.user.displayName ?? 'Usuário',
-                        style: const TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        overflow: TextOverflow.ellipsis,
+                          Text(
+                            state.user.email,
+                            style: TextStyle(
+                              fontSize: constraints.maxWidth < 300 ? 10 : 12,
+                              color: Colors.white70,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                          ),
+                        ],
                       ),
-                      Text(
-                        state.user.email,
-                        style: const TextStyle(
-                          fontSize: 10,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ) : null,
+                    ),
+                  ],
+                );
+              },
+            ) : const Text('Posts'),
             actions: [
               IconButton(
                 onPressed: () {
